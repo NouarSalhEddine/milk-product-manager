@@ -19,10 +19,10 @@ class EditStudent extends Component {
 
     // setting up state
       this.state = {
-        showForm :false,
-        serial_number: "",
-        entry_date: "",
-        breed: "",
+                    showForm :false,
+                    serial_number: "",
+                    entry_date: "",
+                    breed: ""
     };
   }
     handleCloseForm = () => {
@@ -67,11 +67,7 @@ class EditStudent extends Component {
             console.log(res.data);
         } else if (res.status === 200) {
             console.log("updated successfuly" ,this.state)
-            this.setState({
-                serial_number: "",
-                entry_date: "",
-                breed: "",
-              });
+           
         } else {
             console.log("Server error with : "+res.data);
         }
@@ -91,7 +87,8 @@ class EditStudent extends Component {
             <Form onSubmit={this.onSubmit}>
               <Form.Group controlId="SerialNumber">
                 <Form.Label>numero de serie :</Form.Label>
-                <Form.Control
+                            <Form.Control
+                 placeholder={`${this.props.serialNumber}`}
                   type="text"
                   value={this.state.serial_number}
                   onChange={this.onChangeSerialNumber}
@@ -100,7 +97,8 @@ class EditStudent extends Component {
 
               <Form.Group controlId="dateEntry">
                 <Form.Label>date d'entrer :</Form.Label>
-                <Form.Control
+                            <Form.Control
+                        placeholder={`${this.props.entryDate}`}        
                   type="date"
                   value={this.state.entry_date}
                   onChange={this.onChangeDateEntry}
@@ -109,7 +107,8 @@ class EditStudent extends Component {
 
               <Form.Group controlId="breed">
                 <Form.Label>race :</Form.Label>
-                <Form.Select
+                            <Form.Select
+                placeholder={`${this.props.breed}`}
                   type="text"
                   value={this.state.breed}
                   onChange={this.onChangeBreed}
@@ -121,9 +120,9 @@ class EditStudent extends Component {
               </Form.Group>
 
                         <Button
-                className="m-2 "
-                variant="primary"
-                size="lg"
+                className="m-3 "
+                variant="warning"
+                size="s"
                 block="block"
                 type="submit"
                 onClick={() => {
@@ -137,9 +136,10 @@ class EditStudent extends Component {
           <Modal.Footer></Modal.Footer>
         </Modal>
         <Button
-          className="mb-2 "
-          variant="primary"
-          onClick={() => this.handleShowForm()}
+          className="mt-2 "
+          variant="warning"
+                onClick={() => this.handleShowForm()}
+                size="sm"
         >
           Edit
         </Button>

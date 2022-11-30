@@ -82,7 +82,7 @@ class CreateCows extends Component {
       <div className="form-wrapper">
       <Modal show={this.state.showForm} onHide={this.handleCloseForm}>
         <Modal.Header closeButton>
-          <Modal.Title>Modifier</Modal.Title>
+          <Modal.Title>Ajouter Une Vache</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={this.onSubmit}>
@@ -118,27 +118,28 @@ class CreateCows extends Component {
             </Form.Group>
 
                       <Button
-              className="m-2 "
-              variant="primary"
-              size="lg"
-              block="block"
+               className="m-3 "
+               variant="success"
+               size="s"
+               block="block"
               type="submit"
               onClick={() => {
                   this.handleCloseForm();
               }}
               >  
-              Modifier
+              Ajouter 
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
-      <Button
+        <Button
+          size="sm"
         className="mb-2 "
         variant="primary"
         onClick={() => this.handleShowForm()}
       >
-        Edit
+        Ajouter
       </Button>
     </div>
     );

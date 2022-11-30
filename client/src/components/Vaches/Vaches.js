@@ -109,6 +109,9 @@ function Vaches() {
                     refresh={refresh}
                   />
                   <EditCows
+                    serialNumber={ cow.serial_number}
+                    entryDate={ cow.entry_date}
+                    breed = {cow.breed}
                     showToast={showToastAdd}
                     setShowToast={setShowToastAdd}
                     setRefresh={setRefresh}
