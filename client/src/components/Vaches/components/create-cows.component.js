@@ -1,0 +1,127 @@
+import React, { Component } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { BACKEND_URL } from "../../../config";
+
+class CreateCows extends Component {
+  constructor(props) {
+    super(props);
+    // setting up state
+    this.state = {
+      serial_number: "",
+      entry_date: "",
+      breed: "",
+    };
+    // setting up function
+
+    this.onChangeSerialNumber = this.onChangeSerialNumber.bind(this);
+    this.onChangeDateEntry = this.onChangeDateEntry.bind(this);
+    this.onChangeBreed = this.onChangeBreed.bind(this);
+
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onChangeSerialNumber(e) {
+    this.setState({ serial_number: e.target.value });
+  }
+
+  onChangeDateEntry(e) {
+    this.setState({ entry_date: e.target.value });
+  }
+
+  onChangeBreed(e) {
+    this.setState({ breed: e.target.value });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    const { serial_number, entry_date, breed } = this.state;
+    const url = `${BACKEND_URL}/cows`;
+    axios
+      .post(url, {
+        serial_number,
+        entry_date: new Date(entry_date),
+        breed,
+      })
+      .then((response) => {
+        this.props.refresh
+          ? this.props.setRefresh(false)
+          : this.props.setRefresh(true);
+        console.log("refresh");
+
+        this.props.setShowToast(true);
+
+        if (response.status === 500) {
+        } else if (response.status === 200 && response.data.status === 200) {
+          this.setState({
+            serial_number: null,
+            entry_date: "",
+            breed: "",
+          });
+        } else if (response.status === 200 && response.data.status !== 200) {
+          console.log(
+            "Error inserted new data because : " + response.data.message
+          );
+        } else {
+          console.log("Server error with : " + response.data);
+        }
+      })
+      .catch((err) => console.warn(err));
+    console.log(this.state);
+  }
+
+  render() {
+    return (
+      <div className="form-wrapper">
+        <Form onSubmit={this.onSubmit}>
+          <Form.Group controlId="SerialNumber">
+            <Form.Label>numero de serie :</Form.Label>
+            <Form.Control
+              type="text"
+              value={this.state.serial_number}
+              onChange={this.onChangeSerialNumber}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="dateEntry">
+            <Form.Label>date d'entrer :</Form.Label>
+            <Form.Control
+              type="date"
+              value={this.state.entry_date}
+              onChange={this.onChangeDateEntry}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="breed">
+            <Form.Label>race :</Form.Label>
+            <Form.Select
+              type="text"
+              value={this.state.breed}
+              onChange={this.onChangeBreed}
+            >
+              <option value=""></option>
+              <option value="holstein">holstein</option>
+              <option value="montbéliarde">montbéliarde</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Button
+        className="m-2 "
+            variant="primary"
+            size="lg"
+            block="block"
+            type="submit"
+            onClick={() => {
+              this.props.handleClose();
+            }}
+          >
+            Sauvgarder
+          </Button>
+        </Form>
+      </div>
+    );
+  }
+}
+
+export default CreateCows;
