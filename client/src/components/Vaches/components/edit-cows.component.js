@@ -8,7 +8,7 @@ import { BACKEND_URL } from "../../../config";
 class EditStudent extends Component {
   constructor(props) {
       super(props);
-      console.log(this.props.id)
+      
 
     // setting up function
     this.onChangeSerialNumber = this.onChangeSerialNumber.bind(this);
@@ -18,13 +18,19 @@ class EditStudent extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     // setting up state
-    this.state = {
-      serial_number: "",
-      entry_date: "",
-      breed: "",
+      this.state = {
+        showForm :false,
+        serial_number: "",
+        entry_date: "",
+        breed: "",
     };
   }
-
+    handleCloseForm = () => {
+      this.setState({showForm :false})
+  }
+    handleShowForm = () => {
+      this.setState({showForm :true})
+  }
   onChangeSerialNumber(e) {
     this.setState({ serial_number: e.target.value });
   }
@@ -38,43 +44,46 @@ class EditStudent extends Component {
   }
 
   showId = () => {
-    console.log(this.props.id);
+      console.log(this.props.id);
+     
+      
+      return  this.setState({ id: this.props.id });
   };
-
+ 
   onSubmit(e) {
     e.preventDefault();
     const { serial_number, entry_date, breed } = this.state;
 
-    // axios.put(`http://localhost:9000/cows/${this.props.id}`, {
-    //     serial_number,
-    //     entry_date:new Date(entry_date) ,
-    //     breed,
-    // }).then(res => {
-    //     this.showId()
-    //     this.props.refresh
-    //     ? this.props.setRefresh(false)
-    //     : this.props.setRefresh(true);
-    //     if (res.status === 500) {
-    //         console.log(res.data);
-    //     } else if (res.status === 200) {
-    //         console.log("updated successfuly" ,this.state)
-    //         this.setState({
-    //             serial_number: "",
-    //             entry_date: "",
-    //             breed: "",
-    //           });
-    //     } else {
-    //         console.log("Server error with : "+res.data);
-    //     }
-    // }).catch(err => console.warn(err));
-    this.showId();
+    axios.put(`http://localhost:9000/cows/${this.props.id}`, {
+        serial_number,
+        entry_date:new Date(entry_date) ,
+        breed,
+    }).then(res => {
+        this.showId()
+        this.props.refresh
+        ? this.props.setRefresh(false)
+        : this.props.setRefresh(true);
+        if (res.status === 500) {
+            console.log(res.data);
+        } else if (res.status === 200) {
+            console.log("updated successfuly" ,this.state)
+            this.setState({
+                serial_number: "",
+                entry_date: "",
+                breed: "",
+              });
+        } else {
+            console.log("Server error with : "+res.data);
+        }
+    }).catch(err => console.warn(err));
+    console.log(this.props.id);
   }
 
     render() {
-      console.log('id = ', this.props.id)
+      
     return (
       <div className="form-wrapper">
-        <Modal show={this.props.showEdit} onHide={this.props.handleCloseEdit}>
+        <Modal show={this.state.showForm} onHide={this.handleCloseForm}>
           <Modal.Header closeButton>
             <Modal.Title>Modifier</Modal.Title>
           </Modal.Header>
@@ -118,10 +127,9 @@ class EditStudent extends Component {
                 block="block"
                 type="submit"
                 onClick={() => {
-                    this.showId();;
+                    this.handleCloseForm();
                 }}
-                >
-                  
+                >  
                 Modifier
               </Button>
             </Form>
@@ -131,7 +139,7 @@ class EditStudent extends Component {
         <Button
           className="mb-2 "
           variant="primary"
-          onClick={() => this.props.handleShowEdit()}
+          onClick={() => this.handleShowForm()}
         >
           Edit
         </Button>

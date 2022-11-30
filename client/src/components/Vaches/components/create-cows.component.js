@@ -3,25 +3,31 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import { BACKEND_URL } from "../../../config";
-
+import Modal from "react-bootstrap/Modal";
 class CreateCows extends Component {
   constructor(props) {
     super(props);
     // setting up state
     this.state = {
+      showForm:false,
       serial_number: "",
       entry_date: "",
       breed: "",
     };
     // setting up function
-
+    
     this.onChangeSerialNumber = this.onChangeSerialNumber.bind(this);
     this.onChangeDateEntry = this.onChangeDateEntry.bind(this);
     this.onChangeBreed = this.onChangeBreed.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  handleCloseForm = () => {
+    this.setState({showForm :false})
+}
+  handleShowForm = () => {
+    this.setState({showForm :true})
+}
   onChangeSerialNumber(e) {
     this.setState({ serial_number: e.target.value });
   }
@@ -74,52 +80,67 @@ class CreateCows extends Component {
   render() {
     return (
       <div className="form-wrapper">
-        <Form onSubmit={this.onSubmit}>
-          <Form.Group controlId="SerialNumber">
-            <Form.Label>numero de serie :</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.serial_number}
-              onChange={this.onChangeSerialNumber}
-            />
-          </Form.Group>
+      <Modal show={this.state.showForm} onHide={this.handleCloseForm}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modifier</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={this.onSubmit}>
+            <Form.Group controlId="SerialNumber">
+              <Form.Label>numero de serie :</Form.Label>
+              <Form.Control
+                type="text"
+                value={this.state.serial_number}
+                onChange={this.onChangeSerialNumber}
+                />
+            </Form.Group>
 
-          <Form.Group controlId="dateEntry">
-            <Form.Label>date d'entrer :</Form.Label>
-            <Form.Control
-              type="date"
-              value={this.state.entry_date}
-              onChange={this.onChangeDateEntry}
-            />
-          </Form.Group>
+            <Form.Group controlId="dateEntry">
+              <Form.Label>date d'entrer :</Form.Label>
+              <Form.Control
+                type="date"
+                value={this.state.entry_date}
+                onChange={this.onChangeDateEntry}
+                />
+            </Form.Group>
 
-          <Form.Group controlId="breed">
-            <Form.Label>race :</Form.Label>
-            <Form.Select
-              type="text"
-              value={this.state.breed}
-              onChange={this.onChangeBreed}
-            >
-              <option value=""></option>
-              <option value="holstein">holstein</option>
-              <option value="montbéliarde">montbéliarde</option>
-            </Form.Select>
-          </Form.Group>
+            <Form.Group controlId="breed">
+              <Form.Label>race :</Form.Label>
+              <Form.Select
+                type="text"
+                value={this.state.breed}
+                onChange={this.onChangeBreed}
+                >
+                <option value=""></option>
+                <option value="holstein">holstein</option>
+                <option value="montbéliarde">montbéliarde</option>
+              </Form.Select>
+            </Form.Group>
 
-          <Button
-        className="m-2 "
-            variant="primary"
-            size="lg"
-            block="block"
-            type="submit"
-            onClick={() => {
-              this.props.handleClose();
-            }}
-          >
-            Sauvgarder
-          </Button>
-        </Form>
-      </div>
+                      <Button
+              className="m-2 "
+              variant="primary"
+              size="lg"
+              block="block"
+              type="submit"
+              onClick={() => {
+                  this.handleCloseForm();
+              }}
+              >  
+              Modifier
+            </Button>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      <Button
+        className="mb-2 "
+        variant="primary"
+        onClick={() => this.handleShowForm()}
+      >
+        Edit
+      </Button>
+    </div>
     );
   }
 }

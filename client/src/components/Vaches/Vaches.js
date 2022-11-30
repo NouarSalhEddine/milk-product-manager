@@ -13,22 +13,23 @@ import { BACKEND_URL } from "../../config";
 
 function Vaches() {
   // *********formsState*************
-  const [show, setShow] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
+  // const [show, setShow] = useState(false);
+  // const [showEdit, setShowEdit] = useState(false);
   const [showToastAdd, setShowToastAdd] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleCloseEdit = () => setShowEdit(false);
-  const handleShowEdit = () => setShowEdit(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+  // const handleCloseEdit = () => setShowEdit(false);
+  // const handleShowEdit = () => setShowEdit(true);
 
   // *********States*************
 
   const [refresh, setRefresh] = useState(false);
+  // const [id, setId] = useState('');
   const [addCows, setAddCows] = useState([
     {
       id: "",
-      serial_number: null,
+      serial_number: '',
       entry_date: "",
       breed: "",
     },
@@ -41,7 +42,7 @@ function Vaches() {
     });
   }, [refresh]);
   //  ***********************function Edit ****************************
-  const funEdit = () => {};
+  console.log('parent')
 
   return (
     <div>
@@ -75,25 +76,14 @@ function Vaches() {
         </Col>
       }
       {/* ********************************** */}
-      <Button className="mb-2 " variant="primary" onClick={handleShow}>
-        Ajouter
-      </Button>
+      <CreateCows
+        showToast={showToastAdd}
+        setShowToast={setShowToastAdd}
+        setRefresh={setRefresh}
+        refresh={refresh}
+      />
       {/* ***************add*************** */}
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Ajouter une vache</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CreateCows
-            showToast={showToastAdd}
-            setShowToast={setShowToastAdd}
-            handleClose={handleClose}
-            setRefresh={setRefresh}
-            refresh={refresh}
-          />
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
+    
      
       <Table striped bordered hover>
         <thead>
@@ -121,12 +111,10 @@ function Vaches() {
                   <EditCows
                     showToast={showToastAdd}
                     setShowToast={setShowToastAdd}
-                    handleCloseEdit={handleCloseEdit}
-                    handleShowEdit={handleShowEdit}
-                    showEdit={showEdit}
                     setRefresh={setRefresh}
                     refresh={refresh}
-                    id = {cow.id}
+                    id={cow.id}
+                   
                   />
                  
                 </td>
