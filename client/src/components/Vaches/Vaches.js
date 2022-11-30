@@ -13,15 +13,10 @@ import { BACKEND_URL } from "../../config";
 
 function Vaches() {
   // *********formsState*************
-  // const [show, setShow] = useState(false);
-  // const [showEdit, setShowEdit] = useState(false);
+  
   const [showToastAdd, setShowToastAdd] = useState(false);
 
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-  // const handleCloseEdit = () => setShowEdit(false);
-  // const handleShowEdit = () => setShowEdit(true);
-
+  
   // *********States*************
 
   const [refresh, setRefresh] = useState(false);

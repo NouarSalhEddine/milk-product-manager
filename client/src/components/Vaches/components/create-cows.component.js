@@ -56,15 +56,15 @@ class CreateCows extends Component {
           : this.props.setRefresh(true);
         console.log("refresh");
 
+        this.setState({
+          serial_number: "",
+          entry_date: "",
+          breed: "",
+        });
         this.props.setShowToast(true);
 
         if (response.status === 500) {
         } else if (response.status === 200 && response.data.status === 200) {
-          this.setState({
-            serial_number: null,
-            entry_date: "",
-            breed: "",
-          });
         } else if (response.status === 200 && response.data.status !== 200) {
           console.log(
             "Error inserted new data because : " + response.data.message

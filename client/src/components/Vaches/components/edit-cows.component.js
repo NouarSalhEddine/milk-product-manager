@@ -67,7 +67,12 @@ class EditStudent extends Component {
             console.log(res.data);
         } else if (res.status === 200) {
             console.log("updated successfuly" ,this.state)
-           
+            this.setState = {
+                showForm :false,
+                serial_number: "",
+                entry_date: "",
+                breed: ""
+}; 
         } else {
             console.log("Server error with : "+res.data);
         }
@@ -141,7 +146,7 @@ class EditStudent extends Component {
                 onClick={() => this.handleShowForm()}
                 size="sm"
         >
-          Edit
+          Modifier
         </Button>
       </div>
     );

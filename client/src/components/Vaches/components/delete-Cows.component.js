@@ -19,7 +19,7 @@ class DeleteCows extends Component {
     return (
       <div>
         <Button onClick={this.deleteCows} size="sm" variant="danger">
-          Delete
+          Supprimer
         </Button>
       </div>
     );
