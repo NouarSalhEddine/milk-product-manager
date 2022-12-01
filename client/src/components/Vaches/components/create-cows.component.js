@@ -34,6 +34,7 @@ class CreateCows extends Component {
 
   onChangeDateEntry(e) {
     this.setState({ entry_date: e.target.value });
+    
   }
 
   onChangeBreed(e) {
@@ -78,6 +79,7 @@ class CreateCows extends Component {
   }
 
   render() {
+    
     return (
       <div className="form-wrapper">
       <Modal show={this.state.showForm} onHide={this.handleCloseForm}>

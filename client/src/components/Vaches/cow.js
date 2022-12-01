@@ -38,12 +38,12 @@ function Cow() {
     });
   }, []);
 
-  console.log(medicalHistories);
+  
   const entry_date = new Date(cow.entry_date).toLocaleDateString();
 
   return (
     <div>
-      <CreateMedicalHistories />
+      
       <Card>
         <Card.Header>Information</Card.Header>
         <Card.Body>
@@ -64,7 +64,7 @@ function Cow() {
           }}
         >
           Historique medicale
-          <Button variant="primary">+</Button>
+          <CreateMedicalHistories cowId={cowId } />
         </Card.Header>
         <Card.Body>
           <Table striped>
