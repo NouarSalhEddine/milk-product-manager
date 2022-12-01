@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { BACKEND_URL } from "../../../config";
 import axios from "axios";
-function CreateMedicalHistories({ cowId,refresh }) {
+function EditMedicalHistories({ cowId,id }) {
   // ************statesForm*********
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -24,19 +24,19 @@ function CreateMedicalHistories({ cowId,refresh }) {
   };
   
   // ***************axios*********************************
- 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const { date, sickeness} = medical;
-    const url = `${BACKEND_URL}/medical_histories/`;
-    
-    axios.post(url, {
-        cow :cowId,
+    const url = `${BACKEND_URL}/medical_histories/${id}`;
+    console.log(url)
+    axios.put(url, {
+        cow : cowId,
         diagnosis_date: new Date(date),
         sickeness 
       })
       .then((response) => {
-        refresh = true; 
+        
         setMedical({ date : "" , sicknesse:""})
         
 
@@ -57,13 +57,13 @@ function CreateMedicalHistories({ cowId,refresh }) {
   // ***************funcchange*********************************
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        +
+      <Button className='pt-0 pb-0 fw-bold' size="sm"  variant="primary" onClick={handleShow}>
+        Modifier
       </Button>
 
       <Modal  show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Ajouter visites medicale</Modal.Title>
+          <Modal.Title>Modifier visites medicale</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} >
@@ -115,4 +115,4 @@ function CreateMedicalHistories({ cowId,refresh }) {
   );
 }
 
-export default CreateMedicalHistories;
+export default EditMedicalHistories;
