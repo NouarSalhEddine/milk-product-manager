@@ -3,7 +3,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-
+import Col from "react-bootstrap/Col";
+import Toast from "react-bootstrap/Toast";
 import { BACKEND_URL } from "../../../config";
 class EditStudent extends Component {
   constructor(props) {
@@ -14,11 +15,12 @@ class EditStudent extends Component {
     this.onChangeSerialNumber = this.onChangeSerialNumber.bind(this);
     this.onChangeDateEntry = this.onChangeDateEntry.bind(this);
     this.onChangeBreed = this.onChangeBreed.bind(this);
-
+     
     this.onSubmit = this.onSubmit.bind(this);
 
     // setting up state
       this.state = {
+                    showToast :false,
                     showForm :false,
                     serial_number: "",
                     entry_date: "",
@@ -43,12 +45,7 @@ class EditStudent extends Component {
     this.setState({ breed: e.target.value });
   }
 
-  showId = () => {
-      console.log(this.props.id);
-     
-      
-      return  this.setState({ id: this.props.id });
-  };
+ 
  
   onSubmit(e) {
     e.preventDefault();
@@ -59,10 +56,12 @@ class EditStudent extends Component {
         entry_date:new Date(entry_date) ,
         breed,
     }).then(res => {
-        this.showId()
+        
         this.props.refresh
         ? this.props.setRefresh(false)
-        : this.props.setRefresh(true);
+            : this.props.setRefresh(true);
+            this.setState({showToast:true});
+           
         if (res.status === 500) {
             console.log(res.data);
         } else if (res.status === 200) {
@@ -79,11 +78,41 @@ class EditStudent extends Component {
     }).catch(err => console.warn(err));
     console.log(this.props.id);
   }
-
+    
     render() {
-      
+        
     return (
-      <div className="form-wrapper">
+        <div className="form-wrapper">
+             {/* *****************toast***************** */}
+      {
+        <Col
+          xs={6}
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "10px",
+          }}
+        >
+          <Toast
+            onClose={() =>this.setState({showToast:false}) }
+            show={this.state.showToast}
+            delay={3000}
+            autohide
+          >
+            <Toast.Header>
+              <img
+                src="holder.js/20x20?text=%20"
+                className="rounded me-2"
+                alt=""
+              />
+              <strong className="me-auto">Update Successful</strong>
+              <small>5 sec ago</small>
+            </Toast.Header>
+            <Toast.Body>Cows has been successfully updated</Toast.Body>
+          </Toast>
+        </Col>
+      }
+      {/* ********************************** */}
         <Modal show={this.state.showForm} onHide={this.handleCloseForm}>
           <Modal.Header closeButton>
             <Modal.Title>Modifier</Modal.Title>

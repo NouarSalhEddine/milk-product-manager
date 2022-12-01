@@ -6,11 +6,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Toast from "react-bootstrap/Toast";
+import Cow from "./cow";
 import CreateCows from "./components/create-cows.component";
 import EditCows from "./components/edit-cows.component";
 import DeleteCows from "./components/delete-Cows.component";
 import { BACKEND_URL } from "../../config";
-
+import { Link } from "react-router-dom";
+import { Routes ,Route } from 'react-router-dom';
 function Vaches() {
   // *********formsState*************
   
@@ -36,13 +38,14 @@ function Vaches() {
       setAddCows(res.data);
     });
   }, [refresh]);
-  //  ***********************function Edit ****************************
-  console.log('parent')
+    
+ 
+  
+  
 
   return (
     <div>
-      {/* *****************toast***************** */}
-      {
+      
         <Col
           xs={6}
           style={{
@@ -52,7 +55,7 @@ function Vaches() {
           }}
         >
           <Toast
-            onClose={() => setShowToastAdd(false)}
+            onClose={ () => { setShowToastAdd(false) }}
             show={showToastAdd}
             delay={3000}
             autohide
@@ -69,7 +72,7 @@ function Vaches() {
             <Toast.Body>Cows has been successfully uploaded</Toast.Body>
           </Toast>
         </Col>
-      }
+      
       {/* ********************************** */}
       <CreateCows
         showToast={showToastAdd}
@@ -93,8 +96,11 @@ function Vaches() {
           {addCows.map((cow, index) => {
           
             return (
+                
               <tr key={index}>
-                <td>{cow.serial_number}</td>
+                <Link  to={`/vaches/${cow.id}`}>
+                  <td className="d-flex justify-content-center " style={{fontWeight:"bold"}} >{cow.serial_number} </td>
+                  </Link>
                 <td>{cow.entry_date}</td>
                 <td>{cow.breed}</td>
                 <td>
@@ -115,8 +121,9 @@ function Vaches() {
                    
                   />
                  
-                </td>
+                  </td>
               </tr>
+                  
             );
           })}
         </tbody>

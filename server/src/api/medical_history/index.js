@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
-import { create, index, show, update, destroy } from './controller'
+import { create, index, show, showCow, update, destroy } from './controller'
 import { schema } from './model'
 export MedicalHistory, { schema } from './model'
 
 const router = new Router()
-const { diagnosisDate, sickeness } = schema.tree
+const { cow, diagnosis_date, sickeness } = schema.tree
 
 /**
  * @api {post} /medical_histories Create medical history
@@ -19,7 +19,7 @@ const { diagnosisDate, sickeness } = schema.tree
  * @apiError 404 Medical history not found.
  */
 router.post('/',
-  body({ diagnosisDate, sickeness }),
+  body({ cow, diagnosis_date, sickeness }),
   create)
 
 /**
@@ -45,6 +45,10 @@ router.get('/',
 router.get('/:id',
   show)
 
+
+  router.get('/cow/:id',
+  showCow)
+
 /**
  * @api {put} /medical_histories/:id Update medical history
  * @apiName UpdateMedicalHistory
@@ -56,7 +60,7 @@ router.get('/:id',
  * @apiError 404 Medical history not found.
  */
 router.put('/:id',
-  body({ diagnosisDate, sickeness }),
+  body({ cow, diagnosis_date, sickeness }),
   update)
 
 /**
