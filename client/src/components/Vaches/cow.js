@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CreateMedicalHistories from "./components/CreateMedicalHistories";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
@@ -17,18 +18,32 @@ function Cow() {
       breed: "",
     },
   ]);
+  const [medicalHistories, setMedicalHistories] = useState([
+    {
+      id: "",
+      cow: "",
+      sickeness: "",
+      diagnosis_date: "",
+    },
+  ]);
   //  ****************axios***********
   useEffect(() => {
     const url = `${BACKEND_URL}/cows/${cowId}`;
     axios.get(url).then((res) => {
       setCow(res.data);
     });
+
+    axios.get(`${BACKEND_URL}/medical_histories/cow/${cowId}`).then((res) => {
+      setMedicalHistories(res.data);
+    });
   }, []);
 
-  console.log(cow.serial_number);
+  console.log(medicalHistories);
   const entry_date = new Date(cow.entry_date).toLocaleDateString();
+
   return (
     <div>
+      <CreateMedicalHistories />
       <Card>
         <Card.Header>Information</Card.Header>
         <Card.Body>
@@ -60,12 +75,14 @@ function Cow() {
               </tr>
             </thead>
             <tbody>
-
-              <tr>
-                <td>date</td>
-                <td>maladie</td>
-              </tr>
-              
+              {medicalHistories.map((medical, index) => {
+                return (
+                  <tr key = {index}>
+                    <td>{new Date(medical.diagnosis_date).toLocaleDateString()}</td>
+                    <td>{medical.sickeness} </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </Card.Body>
@@ -84,6 +101,7 @@ function Cow() {
         </Card.Header>
         <Card.Body></Card.Body>
       </Card>
+     
     </div>
   );
 }
