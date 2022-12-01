@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { BACKEND_URL } from "../../../config";
 import axios from "axios";
-function EditMedicalHistories({ cowId,id }) {
+function EditMedicalHistories({ cowId,id ,refresh,setRefresh}) {
   // ************statesForm*********
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -29,30 +29,25 @@ function EditMedicalHistories({ cowId,id }) {
     e.preventDefault();
     const { date, sickeness} = medical;
     const url = `${BACKEND_URL}/medical_histories/${id}`;
-    console.log(url)
+    
     axios.put(url, {
         cow : cowId,
         diagnosis_date: new Date(date),
         sickeness 
       })
       .then((response) => {
-        
+        refresh ? setRefresh(false) : setRefresh(true)
         setMedical({ date : "" , sicknesse:""})
         
-
-        if (response.status === 500) {
-        } else if (response.status === 200 && response.data.status === 200) {
-        } else if (response.status === 200 && response.data.status !== 200) {
-          console.log(
-            "Error inserted new data because : " + response.data.message
-          );
-        } else {
+        if (response.status === 200) {
+          console.log("upload succesfuly");
+        }   else {
           console.log("Server error with : " + response.data);
         }
       })
       .catch((err) => console.warn(err));
      
-    console.log("submit");
+    
   }
   // ***************funcchange*********************************
   return (

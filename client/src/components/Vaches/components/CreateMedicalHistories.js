@@ -4,8 +4,8 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { BACKEND_URL } from "../../../config";
 import axios from "axios";
-function CreateMedicalHistories({ cowId,refresh }) {
-  // ************statesForm*********
+function CreateMedicalHistories({ cowId,refresh,setRefresh}) {
+  // ************statesForm********
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -36,7 +36,7 @@ function CreateMedicalHistories({ cowId,refresh }) {
         sickeness 
       })
       .then((response) => {
-        refresh = true; 
+        refresh ? setRefresh(false) : setRefresh(true)
         setMedical({ date : "" , sicknesse:""})
         
 

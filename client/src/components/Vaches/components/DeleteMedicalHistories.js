@@ -2,16 +2,14 @@ import React from 'react'
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-function DeleteMedicalHistories({id}) {
+function DeleteMedicalHistories({id ,refresh,setRefresh}) {
 
   const handleDelete = () => {
 
     axios
         .delete(`http://localhost:9000//medical_histories/${id}`)
         .then((res) => {
-          this.props.refresh
-            ? this.props.setRefresh(false)
-            : this.props.setRefresh(true);
+          refresh ? setRefresh(false) : setRefresh(true)
           console.log("Cows Account successfully deleted with : " + res.data);
         })
       .catch((err) => console.warn(err));

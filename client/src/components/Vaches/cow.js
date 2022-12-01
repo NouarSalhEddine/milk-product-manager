@@ -11,11 +11,9 @@ import { useParams } from "react-router-dom";
 
 function Cow() {
   // *********************refresh****************
-  // const { refresh, setRefresh } = useState(false)
-  // const refreshFun = () => {
-  //   setRefresh(true)
-  // }
-  let refresh = false;
+  const  [refresh, setRefresh]  = useState(false)
+  
+  
   // ***************states********************
   const { id: cowId } = useParams();
   const url = `${BACKEND_URL}/cows/${cowId}`;
@@ -72,7 +70,7 @@ function Cow() {
           }}
         >
           Historique medicale
-          <CreateMedicalHistories cowId={cowId } refresh={refresh} />
+          <CreateMedicalHistories cowId={cowId } setRefresh={setRefresh} refresh={refresh}/>
         </Card.Header>
         <Card.Body>
           <Table striped>
@@ -89,7 +87,7 @@ function Cow() {
                   <tr key = {index}>
                     <td>{new Date(medical.diagnosis_date).toLocaleDateString()}</td>
                     <td>{medical.sickeness} </td>
-                    <td> <DeleteMedicalHistories id={medical.id} /> <EditMedicalHistories cowId={cowId } id={medical.id} /></td> 
+                    <td> <DeleteMedicalHistories id={medical.id} setRefresh={setRefresh} refresh={refresh}/> <EditMedicalHistories cowId={cowId } id={medical.id} setRefresh={setRefresh} refresh={refresh}/></td> 
                   </tr>
                 );
               })}
